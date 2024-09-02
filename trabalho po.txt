@@ -1,0 +1,344 @@
+questão 1:
+
+import java.util.Scanner;
+
+public class TabelaValores {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+        int linhas = 0;
+
+        printHeader();
+
+        while (true) {
+            System.out.print("Digite um valor (ou um número negativo/zero para sair): ");
+            double valor = scanner.nextDouble();
+
+            if (valor <= 0) {
+                break;
+            }
+
+            System.out.printf("%-10.2f %-10.2f %-10.2f%n", valor, Math.pow(valor, 3), Math.sqrt(valor));
+
+            linhas++;
+
+            if (linhas % 20 == 0) {
+                printHeader();
+            }
+        }
+
+        scanner.close();
+        System.out.println("Programa encerrado.");
+    }
+
+    private static void printHeader() {
+        System.out.printf("%-10s %-10s %-10s%n", "Valor", "Cubo", "Raiz Quadrada");
+        System.out.println("------------------------------");
+    }
+}
+
+
+
+
+questão 2:
+
+import java.util.Scanner;
+
+public class VetoresNaoComuns {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int[] vetorA = new int[10];
+        int[] vetorB = new int[10];
+        int[] vetorNaoComum;
+
+        System.out.println("Digite 10 números inteiros para o primeiro vetor:");
+        for (int i = 0; i < vetorA.length; i++) {
+            vetorA[i] = scanner.nextInt();
+        }
+
+        System.out.println("Digite 10 números inteiros para o segundo vetor:");
+        for (int i = 0; i < vetorB.length; i++) {
+            vetorB[i] = scanner.nextInt();
+        }
+
+        vetorNaoComum = encontrarNaoComum(vetorA, vetorB);
+
+        System.out.println("Números não comuns aos vetores:");
+        for (int num : vetorNaoComum) {
+            if (num != -1) { // Print only valid numbers
+                System.out.print(num + " ");
+            }
+        }
+
+        scanner.close();
+    }
+
+    private static int[] encontrarNaoComum(int[] vetorA, int[] vetorB) {
+        // Vetor para armazenar números não comuns
+        int[] tempNaoComum = new int[20];
+        int index = 0;
+
+        // Verifica números de vetorA que não estão em vetorB
+        for (int numA : vetorA) {
+            boolean encontrado = false;
+            for (int numB : vetorB) {
+                if (numA == numB) {
+                    encontrado = true;
+                    break;
+                }
+            }
+            if (!encontrado) {
+                tempNaoComum[index++] = numA;
+            }
+        }
+
+        // Verifica números de vetorB que não estão em vetorA
+        for (int numB : vetorB) {
+            boolean encontrado = false;
+            for (int numA : vetorA) {
+                if (numB == numA) {
+                    encontrado = true;
+                    break;
+                }
+            }
+            if (!encontrado) {
+                tempNaoComum[index++] = numB;
+            }
+        }
+
+        // Reduz o tamanho do vetor tempNaoComum para o número real de elementos não comuns
+        int[] resultado = new int[index];
+        for (int i = 0; i < index; i++) {
+            resultado[i] = tempNaoComum[i];
+        }
+
+        return resultado;
+    }
+}
+
+
+questão 3:
+
+import java.util.Scanner;
+
+public class VetoresProcessamento {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int[] vetorA = new int[10];
+        int[] vetorB = new int[5];
+        int[] resultadoSoma = new int[10];
+        int[] resultadoDivisores = new int[10];
+
+        System.out.println("Digite 10 números inteiros para o primeiro vetor (vetorA):");
+        for (int i = 0; i < vetorA.length; i++) {
+            vetorA[i] = scanner.nextInt();
+        }
+
+        System.out.println("Digite 5 números inteiros para o segundo vetor (vetorB):");
+        for (int i = 0; i < vetorB.length; i++) {
+            vetorB[i] = scanner.nextInt();
+        }
+
+        for (int i = 0; i < vetorA.length; i++) {
+            if (vetorA[i] % 2 == 0) {
+                int soma = vetorA[i];
+                for (int j = 0; j < vetorB.length; j++) {
+                    soma += vetorB[j];
+                }
+                resultadoSoma[i] = soma;
+            }
+        }
+
+        for (int i = 0; i < vetorA.length; i++) {
+            if (vetorA[i] % 2 != 0) {
+                int contadorDivisores = 0;
+                for (int j = 0; j < vetorB.length; j++) {
+                    if (vetorA[i] % vetorB[j] == 0) {
+                        contadorDivisores++;
+                    }
+                }
+                resultadoDivisores[i] = contadorDivisores;
+            }
+        }
+
+        System.out.println("Vetor resultante da soma dos números pares do vetorA com todos os números do vetorB:");
+        for (int num : resultadoSoma) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+
+        System.out.println("Vetor resultante da quantidade de divisores dos números ímpares do vetorA no vetorB:");
+        for (int num : resultadoDivisores) {
+            System.out.print(num + " ");
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}
+
+questão 4:
+
+import java.util.Scanner;
+
+public class ControleBancario {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int[] codigos = new int[10];
+        double[] saldos = new double[10];
+
+        System.out.println("Cadastro de contas bancárias");
+
+        for (int i = 0; i < codigos.length; i++) {
+            System.out.print("Digite o código da conta " + (i + 1) + ": ");
+            codigos[i] = scanner.nextInt();
+            System.out.print("Digite o saldo da conta " + codigos[i] + ": ");
+            saldos[i] = scanner.nextDouble();
+        }
+
+        int opcao;
+        do {
+            System.out.println("\nMenu:");
+            System.out.println("1. Efetuar depósito");
+            System.out.println("2. Efetuar saque");
+            System.out.println("3. Consultar o ativo bancário");
+            System.out.println("4. Finalizar programa");
+            System.out.print("Escolha uma opção: ");
+            opcao = scanner.nextInt();
+
+            switch (opcao) {
+                case 1:
+                    System.out.print("Digite o código da conta para depósito: ");
+                    int codigoDeposito = scanner.nextInt();
+                    System.out.print("Digite o valor do depósito: ");
+                    double valorDeposito = scanner.nextDouble();
+                    boolean contaEncontradaDep = false;
+
+                    for (int i = 0; i < codigos.length; i++) {
+                        if (codigos[i] == codigoDeposito) {
+                            saldos[i] += valorDeposito;
+                            System.out.println("Depósito realizado com sucesso.");
+                            contaEncontradaDep = true;
+                            break;
+                        }
+                    }
+
+                    if (!contaEncontradaDep) {
+                        System.out.println("Código da conta não encontrado.");
+                    }
+                    break;
+
+                case 2:
+                    System.out.print("Digite o código da conta para saque: ");
+                    int codigoSaque = scanner.nextInt();
+                    System.out.print("Digite o valor do saque: ");
+                    double valorSaque = scanner.nextDouble();
+                    boolean contaEncontradaSaque = false;
+
+                    for (int i = 0; i < codigos.length; i++) {
+                        if (codigos[i] == codigoSaque) {
+                            if (saldos[i] >= valorSaque) {
+                                saldos[i] -= valorSaque;
+                                System.out.println("Saque realizado com sucesso.");
+                            } else {
+                                System.out.println("Saldo insuficiente.");
+                            }
+                            contaEncontradaSaque = true;
+                            break;
+                        }
+                    }
+
+                    if (!contaEncontradaSaque) {
+                        System.out.println("Código da conta não encontrado.");
+                    }
+                    break;
+
+                case 3:
+                    double totalAtivo = 0;
+                    for (double saldo : saldos) {
+                        totalAtivo += saldo;
+                    }
+                    System.out.println("Ativo bancário total: R$ " + totalAtivo);
+                    break;
+
+                case 4:
+                    System.out.println("Finalizando programa.");
+                    break;
+
+                default:
+                    System.out.println("Opção inválida.");
+                    break;
+            }
+        } while (opcao != 4);
+
+        scanner.close();
+    }
+}
+
+questão 5:
+
+import java.util.Scanner;
+
+public class MatrizVetores {
+    public static void main(String[] args) {
+        Scanner scanner = new Scanner(System.in);
+
+        int tamanho = 7;
+        int[][] matriz = new int[tamanho][tamanho];
+        int[] maiorLinha = new int[tamanho];
+        int[] menorColuna = new int[tamanho];
+
+        System.out.println("Preencha a matriz 7x7 com números inteiros:");
+
+        for (int i = 0; i < tamanho; i++) {
+            for (int j = 0; j < tamanho; j++) {
+                System.out.print("Elemento [" + i + "][" + j + "]: ");
+                matriz[i][j] = scanner.nextInt();
+            }
+        }
+
+        for (int i = 0; i < tamanho; i++) {
+            int maior = matriz[i][0];
+            for (int j = 1; j < tamanho; j++) {
+                if (matriz[i][j] > maior) {
+                    maior = matriz[i][j];
+                }
+            }
+            maiorLinha[i] = maior;
+        }
+
+        for (int j = 0; j < tamanho; j++) {
+            int menor = matriz[0][j];
+            for (int i = 1; i < tamanho; i++) {
+                if (matriz[i][j] < menor) {
+                    menor = matriz[i][j];
+                }
+            }
+            menorColuna[j] = menor;
+        }
+
+        System.out.println("\nMatriz 7x7:");
+        for (int i = 0; i < tamanho; i++) {
+            for (int j = 0; j < tamanho; j++) {
+                System.out.print(matriz[i][j] + "\t");
+            }
+            System.out.println();
+        }
+
+        System.out.println("\nMaior elemento de cada linha:");
+        for (int i = 0; i < tamanho; i++) {
+            System.out.print(maiorLinha[i] + " ");
+        }
+        System.out.println();
+
+        System.out.println("\nMenor elemento de cada coluna:");
+        for (int j = 0; j < tamanho; j++) {
+            System.out.print(menorColuna[j] + " ");
+        }
+        System.out.println();
+
+        scanner.close();
+    }
+}
